@@ -2,15 +2,59 @@
 
 ---
 
-<html lang="en">
+<html lang="fr">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Taxpertize - Expert Comptable Luxembourg</title>
+		<style>
+			body {
+				font-family: system-ui, sans-serif;
+				margin: 0;
+				padding: 40px;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				min-height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.container {
+				background: white;
+				padding: 60px;
+				border-radius: 20px;
+				box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+				text-align: center;
+				max-width: 600px;
+			}
+			h1 {
+				color: #333;
+				font-size: 3em;
+				margin-bottom: 20px;
+			}
+			p {
+				color: #666;
+				font-size: 1.2em;
+				line-height: 1.6;
+			}
+			.coming-soon {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: white;
+				padding: 15px 30px;
+				border-radius: 50px;
+				display: inline-block;
+				margin-top: 30px;
+				font-weight: bold;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div class="container">
+			<h1>Taxpertize</h1>
+			<p>Expert Comptable & Conseil Fiscal</p>
+			<p>Luxembourg</p>
+			<div class="coming-soon">Site en construction</div>
+		</div>
 	</body>
 </html>
