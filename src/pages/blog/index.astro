@@ -1,0 +1,366 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import '../../styles/global.css';
+
+// Get all blog posts from content collection
+const blogEntries = await getCollection('blog');
+
+// Transform entries to match BlogCard props
+const blogPosts = blogEntries.map(entry => ({
+  ...entry.data,
+  slug: entry.slug
+}));
+
+// Sort by date (newest first)
+blogPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Get unique categories
+const categories = [...new Set(blogPosts.map(post => post.category))].sort();
+---
+
+<Layout title="Blog - Taxpertize">
+  <main class="blog-main">
+    <section class="blog-hero">
+      <div class="container">
+        <div class="blog-hero-content">
+          <h1 class="blog-hero-title">Tax Insights & Updates</h1>
+          <p class="blog-hero-subtitle">
+            Expert analysis on Luxembourg tax law, international tax planning, and regulatory developments
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-filters">
+      <div class="container">
+        <div class="filters-wrapper">
+          <button class="filter-button active" data-category="all">
+            All Articles
+          </button>
+          {categories.map(category => (
+            <button class="filter-button" data-category={category}>
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-grid-section">
+      <div class="container">
+        <div class="blog-grid">
+          {blogPosts.map(post => (
+            <div class="blog-card-wrapper" data-category={post.category}>
+              <BlogCard {...post} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-newsletter">
+      <div class="container">
+        <div class="newsletter-box">
+          <h2 class="newsletter-title">Stay Updated</h2>
+          <p class="newsletter-subtitle">
+            Subscribe to receive the latest tax insights and regulatory updates
+          </p>
+          <form
+            class="newsletter-form"
+            id="newsletter-form"
+            name="newsletter"
+            method="POST"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="newsletter" />
+            <input type="hidden" name="bot-field" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              class="newsletter-input"
+              id="newsletter-email"
+              required
+            />
+            <button type="submit" class="newsletter-button">
+              Subscribe
+            </button>
+          </form>
+          <p class="newsletter-message" id="newsletter-message" style="display: none;">
+            Thank you for subscribing! We'll be in touch soon.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .blog-main {
+    min-height: 70vh;
+  }
+
+  .blog-hero {
+    background: linear-gradient(135deg, var(--color-accent-light), transparent);
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+
+  .blog-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .blog-hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+  }
+
+  .blog-hero-subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .blog-filters {
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .filters-wrapper {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-button {
+    padding: var(--space-xs) var(--space-md);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .filter-button:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .filter-button.active {
+    background: var(--color-primary);
+    color: var(--color-background);
+    border-color: var(--color-primary);
+  }
+
+  .blog-grid-section {
+    padding: var(--space-3xl) 0;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .blog-newsletter {
+    padding: var(--space-3xl) 0;
+    background: var(--color-accent-light);
+  }
+
+  .newsletter-box {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 900;
+    color: var(--color-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .newsletter-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-xl);
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: var(--space-sm);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    background: var(--color-background);
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .newsletter-button {
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  .blog-card-wrapper {
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  .blog-card-wrapper.hidden {
+    display: none;
+  }
+
+  .newsletter-message {
+    margin-top: var(--space-md);
+    color: var(--color-primary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+
+    .blog-hero {
+      padding: var(--space-2xl) 0;
+    }
+
+    .blog-hero-title {
+      font-size: clamp(2rem, 7vw, 3rem);
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const blogCards = document.querySelectorAll('.blog-card-wrapper');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // Filter blog cards
+        blogCards.forEach(card => {
+          if (category === 'all') {
+            card.classList.remove('hidden');
+            card.style.display = 'block';
+          } else {
+            const cardCategory = card.getAttribute('data-category');
+            if (cardCategory === category) {
+              card.classList.remove('hidden');
+              card.style.display = 'block';
+            } else {
+              card.classList.add('hidden');
+              card.style.display = 'none';
+            }
+          }
+        });
+
+        // Smooth animation
+        setTimeout(() => {
+          blogCards.forEach(card => {
+            if (!card.classList.contains('hidden')) {
+              card.style.animation = 'fadeIn 0.5s ease-out';
+            }
+          });
+        }, 100);
+      });
+    });
+
+    // Newsletter form submission with Netlify Forms
+    const newsletterForm = document.getElementById('newsletter-form');
+    const newsletterEmail = document.getElementById('newsletter-email');
+    const newsletterMessage = document.getElementById('newsletter-message');
+
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(newsletterForm);
+
+        try {
+          const response = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+          });
+
+          if (response.ok) {
+            // Show success message
+            newsletterForm.style.display = 'none';
+            newsletterMessage.style.display = 'block';
+
+            // Reset form after 5 seconds
+            setTimeout(() => {
+              newsletterForm.style.display = 'flex';
+              newsletterMessage.style.display = 'none';
+              newsletterEmail.value = '';
+            }, 5000);
+          } else {
+            console.error('Form submission failed');
+          }
+        } catch (error) {
+          console.error('Error submitting form:', error);
+        }
+      });
+    }
+  });
+</script>

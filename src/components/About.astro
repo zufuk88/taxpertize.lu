@@ -1,0 +1,464 @@
+---
+export interface Props {
+  sectionLabel?: string;
+  title?: string;
+  titleAccent?: string;
+  leadText?: string;
+  paragraphs?: string[];
+  stats?: Array<{
+    value: string;
+    label: string;
+    description: string;
+  }>;
+  values?: Array<{
+    title: string;
+    description: string;
+    icon: 'shield' | 'scale' | 'diamond';
+  }>;
+  testimonial?: {
+    text: string;
+    author: string;
+    role: string;
+  };
+}
+
+const {
+  sectionLabel = "About Taxpertize",
+  title = "Where Big Four expertise meets",
+  titleAccent = "boutique excellence",
+  leadText,
+  paragraphs = [],
+  stats = [],
+  values = [],
+  testimonial
+} = Astro.props;
+---
+
+<section id="about" class="about-section">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- Left Content -->
+      <div class="about-content">
+        <span class="about-label">{sectionLabel}</span>
+        <h2 class="about-title">
+          {title}
+          <span class="about-title-accent">{titleAccent}</span>
+        </h2>
+
+        <div class="about-description">
+          {leadText && <p class="about-lead">{leadText}</p>}
+          {paragraphs.map(paragraph => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+
+        <div class="about-values">
+          {values.map((value) => (
+            <div class="value-card">
+              <div class="value-icon-wrapper">
+                {value.icon === 'shield' && (
+                  <svg class="value-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L3.5 7V11.5C3.5 16.25 6.42 20.74 10.64 22.35L12 23L13.36 22.35C17.58 20.74 20.5 16.25 20.5 11.5V7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                )}
+                {value.icon === 'scale' && (
+                  <svg class="value-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 6L12 3L21 6M3 6L6 17C6 18.1046 6.89543 19 8 19C9.10457 19 10 18.1046 10 17L12 6M3 6L5 11.5M21 6L18 17C18 18.1046 17.1046 19 16 19C14.8954 19 14 18.1046 14 17L12 6M21 6L19 11.5M12 3V21M8 21H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                )}
+                {value.icon === 'diamond' && (
+                  <svg class="value-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 3H18L22 9L12 21L2 9L6 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 9H22M12 3L8 9L12 21L16 9L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                )}
+              </div>
+              <div class="value-content">
+                <h4 class="value-title">{value.title}</h4>
+                <p class="value-description">{value.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right Stats Panel -->
+      <div class="about-stats">
+        <div class="stats-card">
+          <div class="stats-header">
+            <h3 class="stats-title">Our Impact</h3>
+            <p class="stats-subtitle">Delivering measurable value since establishment</p>
+          </div>
+
+          <div class="stats-grid">
+            {stats.map((stat, index) => (
+              <div class="stat-item" style={`animation-delay: ${index * 0.1}s`}>
+                <div class="stat-value">{stat.value}</div>
+                <div class="stat-label">{stat.label}</div>
+                <div class="stat-description">{stat.description}</div>
+              </div>
+            ))}
+          </div>
+
+          {testimonial && (
+            <div class="stats-footer">
+              <blockquote class="testimonial">
+                <p class="testimonial-text">
+                  {testimonial.text}
+                </p>
+                <footer class="testimonial-author">
+                  <span class="testimonial-name">{testimonial.author}</span>
+                  <span class="testimonial-role">{testimonial.role}</span>
+                </footer>
+              </blockquote>
+            </div>
+          )}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    padding: var(--space-4xl) 0;
+    background: var(--color-background);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-section::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    right: -10%;
+    width: 40%;
+    height: 40%;
+    background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
+    opacity: 0.3;
+    filter: blur(100px);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Left Content */
+  .about-content {
+    padding-right: var(--space-xl);
+  }
+
+  .about-label {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+    opacity: 0.8;
+  }
+
+  .about-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xl);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .about-title-accent {
+    display: block;
+    font-weight: 300;
+    font-style: italic;
+    opacity: 0.9;
+    margin-top: var(--space-xs);
+  }
+
+  .about-description {
+    margin-bottom: var(--space-xl);
+  }
+
+  .about-lead {
+    font-size: var(--font-size-lg);
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    font-weight: 500;
+  }
+
+  .about-description p {
+    color: var(--color-text-light);
+    line-height: 1.8;
+    margin-bottom: var(--space-md);
+  }
+
+  .about-values {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  .value-card {
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+  }
+
+  .value-card:hover {
+    background: var(--color-accent-light);
+    transform: translateX(8px);
+  }
+
+  .value-icon-wrapper {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .value-card:hover .value-icon-wrapper {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .value-icon {
+    color: var(--color-primary);
+    transition: all 0.3s ease;
+  }
+
+  .value-card:hover .value-icon {
+    color: var(--color-background);
+  }
+
+  .value-content {
+    flex: 1;
+  }
+
+  .value-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .value-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  /* Right Stats Panel */
+  .about-stats {
+    position: sticky;
+    top: var(--space-xl);
+  }
+
+  .stats-card {
+    background: var(--color-background);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: 0 20px 60px rgba(0, 52, 43, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), transparent);
+  }
+
+  .stats-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stats-title {
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .stats-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .stat-item {
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stat-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 900;
+    color: var(--color-primary);
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 4px;
+  }
+
+  .stat-description {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+    opacity: 0.7;
+  }
+
+  .stats-footer {
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .testimonial {
+    margin: 0;
+    padding: 0;
+  }
+
+  .testimonial-text {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+    font-style: italic;
+    margin-bottom: var(--space-md);
+    position: relative;
+  }
+
+  .testimonial-text::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    font-size: 3rem;
+    color: var(--color-primary);
+    opacity: 0.1;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .testimonial-name {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .testimonial-role {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+  }
+
+  /* Tablet Responsive */
+  @media (max-width: 1024px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+    }
+
+    .about-content {
+      padding-right: 0;
+    }
+
+    .about-stats {
+      position: relative;
+      top: 0;
+    }
+
+    .stats-card {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .about-section {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-title {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+    }
+
+    .about-values {
+      gap: var(--space-sm);
+    }
+
+    .value-card {
+      padding: var(--space-sm);
+    }
+
+    .value-icon-wrapper {
+      width: 40px;
+      height: 40px;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .stat-value {
+      font-size: var(--font-size-2xl);
+    }
+
+    .stats-card {
+      padding: var(--space-lg);
+    }
+  }
+</style>

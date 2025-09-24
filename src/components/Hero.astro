@@ -1,0 +1,361 @@
+---
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  primaryCTA?: {
+    text: string;
+    href: string;
+  };
+  secondaryCTA?: {
+    text: string;
+    href: string;
+  };
+}
+
+const {
+  title = "Premium Tax Advisory",
+  subtitle = "Luxembourg",
+  description = "Strategic tax optimization and compliance for international businesses and high-net-worth individuals",
+  primaryCTA = {
+    text: "Schedule Consultation",
+    href: "#contact"
+  },
+  secondaryCTA = {
+    text: "Our Services",
+    href: "#services"
+  }
+} = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero-background">
+    <div class="hero-pattern"></div>
+  </div>
+
+  <div class="container hero-container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-text">Tax Advisory</span>
+      </div>
+
+      <h1 class="hero-title">
+        {title}
+        <span class="hero-title-accent">{subtitle}</span>
+      </h1>
+
+      <p class="hero-description">
+        {description}
+      </p>
+
+      <div class="hero-cta-group">
+        <a href={primaryCTA.href} class="button button-hero-primary">
+          {primaryCTA.text}
+          <svg class="button-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href={secondaryCTA.href} class="button button-hero-secondary">
+          {secondaryCTA.text}
+        </a>
+      </div>
+
+      <div class="hero-features">
+        <div class="hero-feature">
+          <svg class="hero-feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>EU Compliant</span>
+        </div>
+        <div class="hero-feature">
+          <svg class="hero-feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>24h Response</span>
+        </div>
+        <div class="hero-feature">
+          <svg class="hero-feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7V12C2 16.5 4.23 20.68 7.62 23.15L12 24L16.38 23.15C19.77 20.68 22 16.5 22 12V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Confidential</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <span class="hero-scroll-text">Discover More</span>
+    <svg class="hero-scroll-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--color-background);
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+  }
+
+  .hero-pattern {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 150%;
+    height: 150%;
+    opacity: 0.03;
+    background-image:
+      repeating-linear-gradient(45deg, var(--color-primary) 0, var(--color-primary) 1px, transparent 1px, transparent 15px),
+      repeating-linear-gradient(-45deg, var(--color-primary) 0, var(--color-primary) 1px, transparent 1px, transparent 15px);
+    transform: rotate(15deg);
+  }
+
+  .hero-container {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-3xl) var(--container-padding);
+  }
+
+  .hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-badge-text {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    background: var(--color-accent-light);
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: var(--radius-xl);
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--space-lg);
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title-accent {
+    display: block;
+    font-weight: 300;
+    font-style: italic;
+    opacity: 0.8;
+    margin-top: var(--space-sm);
+  }
+
+  .hero-description {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    line-height: 1.6;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-xl);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .button-hero-primary {
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: var(--space-md) var(--space-xl);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    border: 2px solid var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 14px rgba(0, 52, 43, 0.15);
+  }
+
+  .button-hero-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 52, 43, 0.25);
+    background: var(--color-primary);
+    color: var(--color-background);
+    text-decoration: none;
+  }
+
+  .button-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .button-hero-primary:hover .button-icon {
+    transform: translateX(4px);
+  }
+
+  .button-hero-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    padding: var(--space-md) var(--space-xl);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    border: 2px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .button-hero-secondary:hover {
+    border-color: var(--color-primary);
+    background: var(--color-accent-light);
+    text-decoration: none;
+  }
+
+  .hero-features {
+    display: flex;
+    gap: var(--space-xl);
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .hero-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+
+  .hero-feature-icon {
+    color: var(--color-primary);
+    opacity: 0.8;
+  }
+
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-text-light);
+    animation: bounce 2s infinite;
+    cursor: pointer;
+  }
+
+  .hero-scroll-text {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+
+  .hero-scroll-icon {
+    opacity: 0.4;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(8px);
+    }
+  }
+
+  /* Tablet Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 80vh;
+    }
+
+    .hero-container {
+      padding: var(--space-2xl) var(--container-padding);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 7vw, 3.5rem);
+    }
+
+    .hero-description {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+    }
+
+    .hero-cta-group {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .button-hero-primary,
+    .button-hero-secondary {
+      width: 100%;
+      max-width: 320px;
+      justify-content: center;
+    }
+
+    .hero-features {
+      gap: var(--space-md);
+    }
+
+    .hero-scroll-indicator {
+      display: none;
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 480px) {
+    .hero {
+      min-height: 100vh;
+    }
+
+    .hero-pattern {
+      opacity: 0.02;
+    }
+
+    .hero-badge-text {
+      font-size: var(--font-size-xs);
+      padding: 6px 12px;
+    }
+
+    .hero-features {
+      flex-direction: column;
+      gap: var(--space-sm);
+      padding-top: var(--space-lg);
+    }
+
+    .hero-feature {
+      justify-content: center;
+    }
+  }
+</style>

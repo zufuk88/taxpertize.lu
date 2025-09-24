@@ -1,0 +1,131 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Taxpertize - Expert Comptable et Conseil Fiscal à Luxembourg" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Taxpertize Luxembourg" />
+    <meta name="keywords" content="tax advisory Luxembourg, conseil fiscal, tax consultant Luxembourg, ATAD 3, transfer pricing Luxembourg, investment funds tax, corporate tax Luxembourg" />
+    <meta name="geo.region" content="LU" />
+    <meta name="geo.placename" content="Bertrange" />
+    <meta name="geo.position" content="49.6108;6.0503" />
+    <meta name="ICBM" content="49.6108, 6.0503" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://taxpertize.lu" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Taxpertize Luxembourg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={`https://taxpertize.lu${Astro.url.pathname}`} />
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Font: Playfair Display (Times New Roman equivalent) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="/src/styles/global.css" />
+
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <!-- Local Business Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Taxpertize",
+      "description": "Premium tax advisory services for international businesses, investment funds, and high-net-worth individuals in Luxembourg",
+      "url": "https://taxpertize.lu",
+      "telephone": "+352",
+      "email": "contact@taxpertize.lu",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "177 rue de Luxembourg",
+        "addressLocality": "Bertrange",
+        "addressCountry": "LU",
+        "postalCode": "L-8077"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 49.6108,
+        "longitude": 6.0503
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Luxembourg"
+      },
+      "priceRange": "€€€",
+      "openingHours": "Mo-Fr 09:00-18:00",
+      "sameAs": [],
+      "knowsAbout": [
+        "Tax Advisory",
+        "Transfer Pricing",
+        "Investment Funds",
+        "ATAD 3",
+        "Corporate Tax",
+        "International Tax Planning"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Tax Advisory Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Corporate Tax Advisory"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Investment Fund Tax Services"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Private Client Tax Planning"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>

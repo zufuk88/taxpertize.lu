@@ -1,0 +1,138 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import '../../../styles/global.css';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+
+  // Get unique categories
+  const categories = [...new Set(blogEntries.map(post => post.data.category))];
+
+  return categories.map(category => {
+    const filteredPosts = blogEntries.filter(post => post.data.category === category);
+
+    return {
+      params: { category: category.toLowerCase().replace(/\s+/g, '-') },
+      props: {
+        posts: filteredPosts.map(post => ({
+          ...post.data,
+          slug: post.slug
+        })),
+        categoryName: category
+      }
+    };
+  });
+}
+
+const { posts, categoryName } = Astro.props;
+
+// Sort posts by date (newest first)
+posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+
+<Layout title={`${categoryName} Articles - Taxpertize Blog`}>
+  <main class="category-main">
+    <section class="category-hero">
+      <div class="container">
+        <div class="category-hero-content">
+          <div class="breadcrumb">
+            <a href="/blog">Blog</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>{categoryName}</span>
+          </div>
+          <h1 class="category-title">{categoryName}</h1>
+          <p class="category-count">{posts.length} {posts.length === 1 ? 'article' : 'articles'}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-grid-section">
+      <div class="container">
+        <div class="blog-grid">
+          {posts.map(post => (
+            <BlogCard {...post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .category-main {
+    min-height: 70vh;
+  }
+
+  .category-hero {
+    background: linear-gradient(135deg, var(--color-accent-light), transparent);
+    padding: var(--space-3xl) 0;
+  }
+
+  .category-hero-content {
+    max-width: 800px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-primary);
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-text-light);
+    opacity: 0.5;
+  }
+
+  .category-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: var(--color-primary);
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.02em;
+  }
+
+  .category-count {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+  }
+
+  .blog-grid-section {
+    padding: var(--space-3xl) 0;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+
+    .category-hero {
+      padding: var(--space-2xl) 0;
+    }
+
+    .category-title {
+      font-size: clamp(2rem, 7vw, 3rem);
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,60 +1,198 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import FAQ from '../components/FAQ.astro';
+import '../styles/global.css';
 
+// Services content
+const servicesData = [
+  {
+    id: 'individuals',
+    title: 'Private Clients',
+    subtitle: 'High-Net-Worth Individuals',
+    description: 'Comprehensive tax planning for international executives, entrepreneurs, and families with cross-border assets.',
+    features: [
+      'Personal income tax optimization',
+      'Wealth structuring & estate planning',
+      'International relocation advisory',
+      'Cross-border asset management'
+    ],
+    icon: 'user' as const,
+    blogLink: '/blog/luxembourg-tax-residency-guide'
+  },
+  {
+    id: 'corporate',
+    title: 'Corporate Tax',
+    subtitle: 'SMEs to Multinationals',
+    description: 'Strategic tax solutions for businesses ranging from local enterprises to international corporations.',
+    features: [
+      'Corporate tax compliance & reporting',
+      'Transfer pricing documentation',
+      'International tax structuring',
+      'M&A tax due diligence'
+    ],
+    icon: 'building' as const,
+    highlighted: true,
+    blogLink: '/blog/transfer-pricing-best-practices'
+  },
+  {
+    id: 'funds',
+    title: 'Investment Funds',
+    subtitle: 'Alternative & UCITS',
+    description: 'Specialized tax advisory for investment funds, management companies, and institutional investors.',
+    features: [
+      'Fund structuring & formation',
+      'AIFMD & UCITS compliance',
+      'Carried interest planning',
+      'Investor reporting solutions'
+    ],
+    icon: 'chart' as const,
+    blogLink: '/blog/raif-luxembourg-fund-structure'
+  }
+];
+
+// About content
+const aboutContent = {
+  sectionLabel: "About Taxpertize",
+  title: "Where Big Four expertise meets",
+  titleAccent: "boutique excellence",
+  leadText: "Taxpertize represents a new paradigm in tax advisory — combining the institutional excellence of Big Four firms with the agility and personal attention of a boutique practice.",
+  paragraphs: [
+    "Founded by senior tax partners from leading global firms and Magic Circle law firms, we recognized a gap in the market: sophisticated clients seeking Big Four quality without the constraints of large institutional frameworks.",
+    "Our founding partners have advised on some of Luxembourg's most complex tax matters, from multi-billion euro fund structures to intricate cross-border reorganizations. Today, we bring this expertise directly to clients who value both technical excellence and responsive, partner-led service."
+  ],
+  stats: [
+    {
+      value: '15+',
+      label: 'Years Combined Experience',
+      description: 'Big Four & Magic Circle'
+    },
+    {
+      value: '€2.5B',
+      label: 'Assets Under Advisory',
+      description: 'Cross-border structures'
+    },
+    {
+      value: '200+',
+      label: 'International Clients',
+      description: 'Across 40 jurisdictions'
+    },
+    {
+      value: '100%',
+      label: 'Partner Attention',
+      description: 'Direct senior involvement'
+    }
+  ],
+  values: [
+    {
+      title: 'Big Four Heritage',
+      description: 'Our partners bring deep expertise from Deloitte, PwC, EY, and KPMG, combining institutional knowledge with boutique flexibility.',
+      icon: 'shield' as const
+    },
+    {
+      title: 'Legal Excellence',
+      description: 'Former tax partners from leading law firms provide integrated legal-tax strategies for complex international structures.',
+      icon: 'scale' as const
+    },
+    {
+      title: 'Bespoke Solutions',
+      description: 'We deliver tailored strategies, not templates. Each client benefits from custom solutions designed for their unique objectives.',
+      icon: 'diamond' as const
+    }
+  ],
+  testimonial: {
+    text: "Taxpertize provided the sophisticated tax structuring we needed with the responsiveness of a boutique firm. Their Big Four background was evident in every interaction.",
+    author: "Managing Partner",
+    role: "Luxembourg Investment Fund"
+  }
+};
+
+// FAQ content
+const faqData = [
+  {
+    question: "What distinguishes Taxpertize from Big Four firms?",
+    answer: "While we maintain Big Four quality standards and expertise, we offer direct partner involvement, faster response times, and more flexible fee structures. Our boutique size allows us to provide personalized strategies rather than standardized solutions.",
+    category: "About Us"
+  },
+  {
+    question: "How do you handle cross-border tax planning?",
+    answer: "We leverage Luxembourg's extensive tax treaty network and EU directives to create efficient cross-border structures. Our team specializes in coordinating multi-jurisdictional tax strategies, ensuring compliance while optimizing your global tax position.",
+    category: "International"
+  },
+  {
+    question: "What types of funds do you advise?",
+    answer: "We advise the full spectrum of investment vehicles including UCITS, AIFs, RAIFs, SCSp, and SICAR structures. Our expertise covers private equity, real estate, infrastructure, and hedge fund strategies, with particular strength in carried interest planning.",
+    category: "Funds"
+  },
+  {
+    question: "Can you assist with substance requirements in Luxembourg?",
+    answer: "Yes, we ensure your Luxembourg structures meet all substance requirements including local directors, office space, and economic activity tests. We help design governance structures that satisfy both regulatory requirements and business objectives.",
+    category: "Compliance"
+  },
+  {
+    question: "What is your typical client profile?",
+    answer: "Our clients range from high-net-worth individuals with €10M+ in assets to multinational corporations and investment funds managing billions. We particularly excel with clients requiring sophisticated, multi-jurisdictional tax solutions.",
+    category: "Clients"
+  },
+  {
+    question: "How quickly can you respond to urgent matters?",
+    answer: "We guarantee initial response within 24 hours for all client inquiries. For urgent matters, partners are directly accessible and we can mobilize teams immediately. Our boutique structure enables rapid decision-making without corporate bureaucracy.",
+    category: "Service"
+  },
+  {
+    question: "Do you provide tax compliance services?",
+    answer: "Yes, we offer comprehensive tax compliance services including corporate tax returns, VAT filings, and regulatory reporting. However, our focus remains on high-value advisory work, and we can coordinate with your existing compliance providers if preferred.",
+    category: "Services"
+  },
+  {
+    question: "What are your fee structures?",
+    answer: "We offer flexible fee arrangements including fixed fees for defined projects, retainer-based relationships for ongoing advisory, and success-based fees for specific transactions. All engagements begin with a transparent fee estimate.",
+    category: "Fees"
+  }
+];
 ---
 
-<html lang="fr">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Taxpertize - Expert Comptable Luxembourg</title>
-		<style>
-			body {
-				font-family: system-ui, sans-serif;
-				margin: 0;
-				padding: 40px;
-				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-				min-height: 100vh;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-			.container {
-				background: white;
-				padding: 60px;
-				border-radius: 20px;
-				box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-				text-align: center;
-				max-width: 600px;
-			}
-			h1 {
-				color: #333;
-				font-size: 3em;
-				margin-bottom: 20px;
-			}
-			p {
-				color: #666;
-				font-size: 1.2em;
-				line-height: 1.6;
-			}
-			.coming-soon {
-				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-				color: white;
-				padding: 15px 30px;
-				border-radius: 50px;
-				display: inline-block;
-				margin-top: 30px;
-				font-weight: bold;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<h1>Taxpertize</h1>
-			<p>Expert Comptable & Conseil Fiscal</p>
-			<p>Luxembourg</p>
-			<div class="coming-soon">Site en construction</div>
-		</div>
-	</body>
-</html>
+<Layout title="Taxpertize - Premium Tax Advisory Luxembourg">
+	<main>
+		<Hero
+			title="Taxpertize"
+			subtitle="Luxembourg"
+			description="Strategic tax optimization and compliance solutions for international businesses, investment funds, and high-net-worth individuals"
+			primaryCTA={{
+				text: "Schedule Consultation",
+				href: "mailto:contact@taxpertize.lu"
+			}}
+			secondaryCTA={{
+				text: "Discover Our Expertise",
+				href: "#services"
+			}}
+		/>
+
+		<Services
+			sectionLabel="Our Expertise"
+			sectionTitle="Tailored Tax Solutions"
+			sectionSubtitle="Delivering sophisticated tax strategies across three core practice areas"
+			services={servicesData}
+		/>
+
+		<About
+			sectionLabel={aboutContent.sectionLabel}
+			title={aboutContent.title}
+			titleAccent={aboutContent.titleAccent}
+			leadText={aboutContent.leadText}
+			paragraphs={aboutContent.paragraphs}
+			stats={aboutContent.stats}
+			values={aboutContent.values}
+			testimonial={aboutContent.testimonial}
+		/>
+
+		<FAQ
+			sectionLabel="Frequently Asked Questions"
+			sectionTitle="Expert Answers"
+			sectionSubtitle="Clear guidance on complex tax matters"
+			faqs={faqData}
+		/>
+	</main>
+</Layout>

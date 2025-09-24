@@ -1,0 +1,38 @@
+---
+// Simple footer component
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-text">© 2024 Taxpertize. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-primary);
+    padding: var(--space-lg) 0;
+    margin-top: auto;
+  }
+
+  .footer-text {
+    text-align: center;
+    color: var(--color-background);
+    margin: 0;
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.95;
+  }
+
+  /* Ensure footer stays at bottom on short pages */
+  :global(body) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(main) {
+    flex: 1;
+  }
+</style>
